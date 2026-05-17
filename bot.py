@@ -283,6 +283,11 @@ async def main():
     db = SupabaseDB(SUPABASE_URL, SUPABASE_KEY)
 
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
+    if app.job_queue is None:
+        raise RuntimeError(
+            "JobQueue не инициализирован. "
+            'Установите зависимость: pip install "python-telegram-bot[job-queue]"'
+        )
     app.bot_data["db"] = db
 
     checker = SlotChecker(app)
